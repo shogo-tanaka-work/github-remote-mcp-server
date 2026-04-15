@@ -1,0 +1,17 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "github-mcp-server"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+keep_vars = true
+
+# 開発環境用設定
+[dev]
+port = 8787
+
+# 本番環境の環境変数（secretsはwrangler secretで設定）
+# wrangler secret put GITHUB_PERSONAL_ACCESS_TOKEN
+# wrangler secret put OAUTH_CLIENT_ID
+# wrangler secret put OAUTH_CLIENT_SECRET
+[vars]
+GITHUB_HOST = "github.com"
