@@ -145,7 +145,16 @@ var (
 	// When active, consolidated tools are replaced by single-purpose granular tools.
 	FeatureFlagIssuesGranular       = "issues_granular"
 	FeatureFlagPullRequestsGranular = "pull_requests_granular"
+)
 
+// HeaderAllowedFeatureFlags returns the feature flags that clients may enable via
+// the X-MCP-Features header. It delegates to AllowedFeatureFlags as the single
+// source of truth.
+func HeaderAllowedFeatureFlags() []string {
+	return slices.Clone(AllowedFeatureFlags)
+}
+
+var (
 	// Remote-only toolsets - these are only available in the remote MCP server
 	// but are documented here for consistency and to enable automated documentation.
 	ToolsetMetadataCopilotSpaces = inventory.ToolsetMetadata{
@@ -292,6 +301,7 @@ func AllTools(t translations.TranslationHelperFunc) []inventory.ServerTool {
 		GranularAddSubIssue(t),
 		GranularRemoveSubIssue(t),
 		GranularReprioritizeSubIssue(t),
+		GranularSetIssueFields(t),
 
 		// Granular pull request tools (feature-flagged, replace consolidated update_pull_request/pull_request_review_write)
 		GranularUpdatePullRequestTitle(t),
